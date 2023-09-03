@@ -15,6 +15,7 @@ const Button: FC<Props> = (props) => {
     <>
       {!props.to ? (
         <button
+          {...props}
           type="button"
           onSubmit={() => {}}
           {...props}
@@ -29,7 +30,10 @@ const Button: FC<Props> = (props) => {
           {props.children}
         </button>
       ) : (
-        <Link className="btn btn-outline-dark" to={props.to}>
+        <Link
+          className={classNames("btn btn-outline-dark", props.className)}
+          to={props.to}
+        >
           {props.children}
         </Link>
       )}

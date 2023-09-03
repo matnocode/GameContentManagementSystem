@@ -1,7 +1,8 @@
 import { FC, useState } from "react";
-import { Form, FormLabel, FormSelect, FormText } from "react-bootstrap";
+import { Form, FormLabel, FormSelect } from "react-bootstrap";
 
 import Button from "../../common/Button";
+import { Character } from "../../interfaces/character";
 import { Dialog } from "../../interfaces/dialog";
 import DialogItem from "./DialogItem";
 import _ from "lodash";
@@ -16,9 +17,11 @@ const AddDialogPage: FC = () => {
 
   return (
     <div>
-      <Button to="/">⬅ Back</Button>
+      <Button to="/dialogs" className="my-2">
+        ⬅ Back
+      </Button>
       <Form className="d-flex flex-column gap-3 p-2">
-        <div className="">
+        <div>
           <FormLabel className="fw-bold">Select Quest Type</FormLabel>
           <FormSelect>
             <option>No Quest</option>
@@ -27,16 +30,23 @@ const AddDialogPage: FC = () => {
             <option>Quest 3</option>
           </FormSelect>
         </div>
-        <div className="d-flex justify-content-between ">
+        <div className="d-flex justify-content-between sticky-top bg-white p-2 shadow-sm border">
           <Button
             onClick={() =>
-              setDialogs([...dialogs, { content: "", sprite: "" }])
+              setDialogs([
+                ...dialogs,
+                {
+                  content: "",
+                  speaker: { name: "", iconUrl: undefined } as Character,
+                },
+              ])
             }
           >
             ➕ Add new Dialog
           </Button>
           <Button disabled={_.isEqual(data, dialogs)}>Save ✔️</Button>
         </div>
+
         <div className="d-flex flex-column gap-2">
           {dialogs?.map((x, i) => (
             <DialogItem

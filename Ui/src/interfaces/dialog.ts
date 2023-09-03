@@ -1,4 +1,6 @@
+import { Character } from "./character";
+
 export interface Dialog {
   content?: string;
-  sprite?: string;
+  speaker?: Character;
 }
