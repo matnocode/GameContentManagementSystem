@@ -8,8 +8,8 @@ const MainPage: FC = () => {
       <hr />
       <div className="d-flex flex-column gap-3">
         <Button to="addQuest">Manage Quests 📍</Button>
-        <Button to="addQuest">Manage Characters ‍👤</Button>
-        <Button to="addDialog">Manage Dialogs 👄</Button>
+        <Button to="addCharacter">Manage Characters ‍👤</Button>
+        <Button to="dialogs">Manage Dialogs 👄</Button>
       </div>
     </div>
   );
