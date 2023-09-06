@@ -1,53 +1,86 @@
-import {
-  AddCharacter,
-  FailedRequest,
-  LoadingRequest,
-  SuccessUpdate,
-} from "../../api/character";
-import { FC, useState } from "react";
+import { FC, useEffect, useState } from "react";
 import { Form, FormControl, FormLabel } from "react-bootstrap";
-import { toast, useToaster } from "react-hot-toast/headless";
+import { addEditCharacter, getCharacter } from "../../api/character";
 
 import Button from "../../common/Button";
 import { Character } from "../../interfaces/character";
 import CharacterImage from "../addDialog/components/CharacterImage";
-import { Toaster } from "react-hot-toast";
+import CustomToaster from "../../common/CustomToaster";
+import Loader from "../../common/Loader";
 import _ from "lodash";
+import { useParams } from "react-router-dom";
+import { useQuery } from "react-query";
 
 const AddEditCharacter: FC = () => {
-  const [src, setSrc] = useState("");
+  const [iconUrl, setIconUrl] = useState("");
   const [name, setName] = useState("");
-  const { toasts } = useToaster();
 
-  const handleAddEdit = () => {
-    console.log(toasts);
-    toast.promise(AddCharacter({ name: name, iconUrl: src } as Character), {
-      loading: LoadingRequest,
-      success: SuccessUpdate,
-      error: FailedRequest,
-    });
+  const { id } = useParams();
+  const { data, isLoading, remove } = useQuery<Character>(
+    "getCharacter",
+    () => getCharacter(Number(id) ?? -1),
+    { refetchOnReconnect: false, refetchOnWindowFocus: false }
+  );
+
+  const handleAddEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    // toast.promise(AddCharacter({ name: name, iconUrl: src } as Character), {
+    //   loading: LoadingRequest,
+    //   success: SuccessUpdate,
+    //   error: FailedRequest,
+    // });
+    await addEditCharacter({
+      name: name,
+      iconUrl: iconUrl,
+      id: data?.id ?? undefined,
+    } as Character);
   };
+
+  useEffect(() => {
+    if (data !== undefined) {
+      setIconUrl(data?.iconUrl ?? "");
+      setName(data?.name ?? "");
+    }
+  }, [data]);
+
+  useEffect(() => () => remove(), []);
 
   return (
     <div className="py-3">
-      <Button to="/">⬅ Back</Button>
+      <Button to="/characters">⬅ Back</Button>
       <div className="h3 text-center ">Add new character</div>
-      <Form className="d-flex flex-column gap-3 w-50 m-auto">
-        <Button className="my-3" onClick={handleAddEdit}>
-          Save ✔️
-        </Button>
-        <div>
-          <FormLabel>Name</FormLabel>
-          <FormControl type="text" onChange={(e) => setName(e.target.value)} />
-        </div>
-        <div>
-          <FormLabel>Icon Url</FormLabel>
-          <div className="d-flex gap-2 ">
-            <FormControl type="text" onChange={(e) => setSrc(e.target.value)} />
-            <CharacterImage src={src} />
+      {!isLoading ? (
+        <Form
+          className="d-flex flex-column gap-3 w-50 m-auto"
+          onSubmit={handleAddEdit}
+        >
+          <Button className="my-3" type="submit">
+            Save ✔️
+          </Button>
+          <div>
+            <FormLabel>Name</FormLabel>
+            <FormControl
+              value={name}
+              type="text"
+              onChange={(e) => setName(e.target.value)}
+            />
           </div>
-        </div>
-      </Form>
+          <div>
+            <FormLabel>Icon Url</FormLabel>
+            <div className="d-flex gap-2 ">
+              <FormControl
+                value={iconUrl}
+                type="text"
+                onChange={(e) => setIconUrl(e.target.value)}
+              />
+              <CharacterImage src={iconUrl} />
+            </div>
+          </div>
+        </Form>
+      ) : (
+        <Loader />
+      )}
+      <CustomToaster />
     </div>
   );
 };

@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace GamContentSystemApi.Controllers
 {
     [ApiController]
-    [Route("[controller]/[action]")]
+    [Route("api/[controller]/[action]")]
     public class ApiController : ControllerBase
     {
         protected IMediator Mediator { get => HttpContext.RequestServices.GetRequiredService<IMediator>(); }
