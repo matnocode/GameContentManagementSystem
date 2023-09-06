@@ -9,8 +9,8 @@ namespace GamContentSystemApi.Database
         {
         }
 
-        DbSet<Dialog> Dialogs;
-        DbSet<Character> Characters;
-        DbSet<Quest> Quests;
+        public DbSet<Dialog> Dialogs { get; set; }
+        public DbSet<Character> Characters { get; set; }
+        public DbSet<Quest> Quests { get; set; }
     }
 }

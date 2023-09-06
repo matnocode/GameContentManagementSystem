@@ -4,10 +4,10 @@ namespace GamContentSystemApi
     {
         public static void Main(string[] args)
         {
-            var builder = Host.CreateDefaultBuilder(args);
-            var a = builder.ConfigureWebHostDefaults(builder => builder.UseStartup<Startup>());
-
-            a.Start();
+            var host = Host.CreateDefaultBuilder(args)
+                 .ConfigureWebHostDefaults(webBuilder => { webBuilder.UseStartup<Startup>(); })
+                 .Build();
+            host.Run();
         }
     }
 }
