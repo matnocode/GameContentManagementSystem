@@ -2,15 +2,17 @@ import "../node_modules/bootstrap/dist/css/bootstrap.css";
 
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { QueryClient, QueryClientProvider } from "react-query";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 
 import AddDialogPage from "./pages/addDialog/AddDialogPage";
 import AddEditCharacter from "./pages/character/AddEditCharacter";
+import AddEditQuest from "./pages/quest/AddEditQuest";
 import CharacterList from "./pages/character/CharacterList";
 import Container from "./common/Container";
 import DialogListPage from "./pages/addDialog/DialogListPage";
 import { FC } from "react";
 import MainPage from "./pages/MainPage";
+import QuestList from "./pages/quest/QuestList";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +30,9 @@ const App: FC = () => {
             <Route path="/addCharacter" element={<AddEditCharacter />} />
             <Route path="/addCharacter/:id" element={<AddEditCharacter />} />
             <Route path="/characters" element={<CharacterList />} />
+            <Route path="/quests" element={<QuestList />} />
+            <Route path="/addQuest/:id" element={<AddEditQuest />} />
+            <Route path="/addQuest" element={<AddEditQuest />} />
           </Route>
         </Routes>
         <Toaster />

@@ -2,8 +2,8 @@ import { Character } from "../interfaces/character";
 
 export const RequestUrl = "https://localhost:5001/api/data";
 
-export const SuccessUpdate = "✔️Updated Successfully";
-export const SuccessAdd = "✔️Added Successfully";
+export const SuccessUpdate = "Updated Successfully";
+export const SuccessAdd = "Added Successfully";
 export const SuccessRemove = "🗑️Removed Successfully";
 
 export const FailedRequest = "❌Something went wrong";

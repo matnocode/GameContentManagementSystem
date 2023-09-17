@@ -1,15 +1,12 @@
 import Button from "../../common/Button";
 import { FC } from "react";
+import { Quest } from "../../interfaces/quest";
 import { Table } from "react-bootstrap";
+import { getQuests } from "../../api/quest";
+import { useQuery } from "react-query";
 
 const DialogListPage: FC = () => {
-  //get quest types
-  const questTypes = [
-    "firstQuest",
-    "secondQuest",
-    "thirdQuest",
-    "forthQuest",
-  ] as string[];
+  const { data } = useQuery<Quest[]>("aaaa", () => getQuests());
 
   return (
     <div className="py-2">
@@ -47,17 +44,18 @@ const DialogListPage: FC = () => {
           </tr>
         </thead>
         <tbody>
-          {questTypes?.map((x) => (
-            <tr>
-              <td>{x}</td>
-              <td>{x}</td>
-              <td>{x}</td>
-              <td className="d-flex justify-content-between ">
-                <Button to="/addDialog/x.id">✏️</Button>
-                <div className="btn btn-close py-2" />
-              </td>
-            </tr>
-          ))}
+          {data &&
+            data.map((x) => (
+              <tr>
+                <td>{x.questType}</td>
+                <td>{x.name}</td>
+                <td></td>
+                <td className="d-flex justify-content-between ">
+                  <Button to="/addDialog/x.id">✏️</Button>
+                  <div className="btn btn-close py-2" />
+                </td>
+              </tr>
+            ))}
         </tbody>
       </Table>
     </div>

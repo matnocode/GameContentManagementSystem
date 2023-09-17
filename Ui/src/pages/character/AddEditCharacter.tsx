@@ -1,13 +1,19 @@
 import { FC, useEffect, useState } from "react";
+import {
+  FailedRequest,
+  LoadingRequest,
+  SuccessUpdate,
+  addEditCharacter,
+  getCharacter,
+} from "../../api/character";
 import { Form, FormControl, FormLabel } from "react-bootstrap";
-import { addEditCharacter, getCharacter } from "../../api/character";
 
 import Button from "../../common/Button";
 import { Character } from "../../interfaces/character";
 import CharacterImage from "../addDialog/components/CharacterImage";
-import CustomToaster from "../../common/CustomToaster";
 import Loader from "../../common/Loader";
 import _ from "lodash";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
@@ -24,11 +30,18 @@ const AddEditCharacter: FC = () => {
 
   const handleAddEdit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // toast.promise(AddCharacter({ name: name, iconUrl: src } as Character), {
-    //   loading: LoadingRequest,
-    //   success: SuccessUpdate,
-    //   error: FailedRequest,
-    // });
+    toast.promise(
+      addEditCharacter({
+        name: name,
+        iconUrl: iconUrl,
+        id: id ?? -1,
+      } as Character),
+      {
+        loading: LoadingRequest,
+        success: SuccessUpdate,
+        error: FailedRequest,
+      }
+    );
     await addEditCharacter({
       name: name,
       iconUrl: iconUrl,
@@ -80,7 +93,6 @@ const AddEditCharacter: FC = () => {
       ) : (
         <Loader />
       )}
-      <CustomToaster />
     </div>
   );
 };

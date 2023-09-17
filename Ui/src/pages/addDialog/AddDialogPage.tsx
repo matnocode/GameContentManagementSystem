@@ -6,14 +6,21 @@ import { Character } from "../../interfaces/character";
 import { Dialog } from "../../interfaces/dialog";
 import DialogItem from "./DialogItem";
 import _ from "lodash";
+import { getCharacters } from "../../api/character";
+import { useQuery } from "react-query";
 
 const AddDialogPage: FC = () => {
   const data = [] as Dialog[];
   const [dialogs, setDialogs] = useState<Dialog[]>(data);
 
+  const { data: characters } = useQuery("getCharacters", () => getCharacters());
+
   const handleDeleteClick = (index: number) => {
     setDialogs(dialogs.filter((_, i) => i != index));
   };
+
+  const handleDialogValuesChange = (dialog: Dialog, index: number) =>
+    setDialogs(dialogs.map((prev, i) => (i === index ? dialog : prev)));
 
   return (
     <div>
@@ -42,7 +49,7 @@ const AddDialogPage: FC = () => {
               ])
             }
           >
-            ➕ Add new Dialog
+            ➕ Add chat
           </Button>
           <Button disabled={_.isEqual(data, dialogs)}>Save ✔️</Button>
         </div>
@@ -52,7 +59,10 @@ const AddDialogPage: FC = () => {
             <DialogItem
               key={i}
               dialog={x}
+              characters={characters}
               handleDeleteClick={() => handleDeleteClick(i)}
+              handleDialogValuesChange={handleDialogValuesChange}
+              index={i}
             />
           ))}
         </div>

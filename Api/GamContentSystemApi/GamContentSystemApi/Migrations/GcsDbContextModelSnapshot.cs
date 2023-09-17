@@ -38,7 +38,7 @@ namespace GamContentSystemApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Characters");
+                    b.ToTable("Characters", (string)null);
                 });
 
             modelBuilder.Entity("GamContentSystemApi.Database.Entities.Dialog", b =>
@@ -59,7 +59,7 @@ namespace GamContentSystemApi.Migrations
 
                     b.HasIndex("SpeakerId");
 
-                    b.ToTable("Dialogs");
+                    b.ToTable("Dialogs", (string)null);
                 });
 
             modelBuilder.Entity("GamContentSystemApi.Database.Entities.Quest", b =>
@@ -78,7 +78,7 @@ namespace GamContentSystemApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Quests");
+                    b.ToTable("Quests", (string)null);
                 });
 
             modelBuilder.Entity("GamContentSystemApi.Database.Entities.Dialog", b =>
