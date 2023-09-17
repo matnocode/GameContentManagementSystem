@@ -9,8 +9,9 @@ const CharacterImage: FC<Props> = (props) => {
     <img
       {...props}
       src={
-        props.src ??
-        "https://i.pinimg.com/736x/c5/ea/88/c5ea885c9cf5f7f8fc9b3fb73dcffa42.jpg"
+        _.isEmpty(props.src)
+          ? "https://i.pinimg.com/736x/c5/ea/88/c5ea885c9cf5f7f8fc9b3fb73dcffa42.jpg"
+          : props.src
       }
       style={{ width: "50px" }}
       className={classNames("img-thumbnail", props.className)}

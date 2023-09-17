@@ -7,7 +7,7 @@ const MainPage: FC = () => {
       <h3 className="text-center">Game Content Management System</h3>
       <hr />
       <div className="d-flex flex-column gap-3">
-        <Button to="addQuest">Manage Quests 📍</Button>
+        <Button to="quests">Manage Quests 📍</Button>
         <Button to="characters">Manage Characters ‍👤</Button>
         <Button to="dialogs">Manage Dialogs 👄</Button>
       </div>
