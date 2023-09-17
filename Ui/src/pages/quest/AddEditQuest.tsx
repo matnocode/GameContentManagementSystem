@@ -1,44 +1,61 @@
 import { FC, useEffect, useState } from "react";
+import {
+  FailedRequest,
+  LoadingRequest,
+  SuccessUpdate,
+} from "../../api/character";
 import { Form, FormControl, FormLabel, FormSelect } from "react-bootstrap";
-import { Quest, QuestType } from "../../interfaces/quest";
 import { addEditQuest, getQuest } from "../../api/quest";
 
 import Button from "../../common/Button";
 import Loader from "../../common/Loader";
+import { Quest } from "../../interfaces/quest";
+import { StoryChapter } from "../../interfaces/storyChapter";
 import _ from "lodash";
+import { getStoryChapters } from "../../api/storyChapter";
+import toast from "react-hot-toast";
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 
 const AddEditQuest: FC = () => {
-  const [questType, setQuestType] = useState<number>();
-  const [name, setName] = useState("");
+  const [title, setTitle] = useState("");
+  const [storyChapter, setStoryChapter] = useState<number>();
 
   const { id } = useParams();
   const { data, isLoading, remove } = useQuery<Quest>(
     "getQuest",
-    () => getQuest(Number(id) ?? -1),
-    { refetchOnReconnect: false, refetchOnWindowFocus: false }
+    () => getQuest(Number(id)),
+    {
+      refetchOnReconnect: false,
+      refetchOnWindowFocus: false,
+      enabled: !_.isNaN(id) && _.isNumber(id),
+    }
   );
-  console.log(questType);
 
-  const handleAddEdit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const { data: storyChapters } = useQuery<StoryChapter[]>(
+    "getStoryChapters",
+    () => getStoryChapters()
+  );
+
+  const handleAddEdit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // toast.promise(AddCharacter({ name: name, iconUrl: src } as Character), {
-    //   loading: LoadingRequest,
-    //   success: SuccessUpdate,
-    //   error: FailedRequest,
-    // });
-    await addEditQuest({
-      name: name,
-      questType: questType,
-      id: data?.id ?? undefined,
-    } as Quest);
+    toast.promise(
+      addEditQuest({
+        id: data?.id ?? undefined,
+        storyChapter: {} as StoryChapter,
+        title: title,
+      } as Quest),
+      {
+        loading: LoadingRequest,
+        success: SuccessUpdate,
+        error: FailedRequest,
+      }
+    );
   };
 
   useEffect(() => {
     if (data !== undefined) {
-      setQuestType(data?.questType ?? "FirstQuest");
-      setName(data?.name ?? "");
+      setTitle(data?.title ?? "");
     }
   }, [data]);
 
@@ -56,24 +73,24 @@ const AddEditQuest: FC = () => {
           <Button className="my-3" type="submit">
             Save ✔️
           </Button>
+
           <div>
-            <FormLabel>Name</FormLabel>
-            <FormControl
-              value={name}
-              type="text"
-              onChange={(e) => setName(e.target.value)}
-            />
+            <FormLabel>Select Story Chapter</FormLabel>
+            <FormSelect
+              onChange={(e) => setStoryChapter(Number(e.currentTarget.value))}
+            >
+              {storyChapters?.map((sc) => (
+                <option value={sc.id}>{sc.title}</option>
+              ))}
+            </FormSelect>
           </div>
           <div>
-            <FormLabel>QuestType</FormLabel>
-            <FormSelect
-              value={questType}
-              onChange={(e) => setQuestType(Number(e.target.value))}
-            >
-              <option value={QuestType.FirstQuest} label="FirstQuest" />
-              <option value={QuestType.SecondQuest} label="SecondQuest" />
-              <option value={QuestType.ThirdQuest} label="ThirdQuest" />
-            </FormSelect>
+            <FormLabel>Quest Title</FormLabel>
+            <FormControl
+              value={title}
+              type="text"
+              onChange={(e) => setTitle(e.target.value)}
+            />
           </div>
         </Form>
       ) : (

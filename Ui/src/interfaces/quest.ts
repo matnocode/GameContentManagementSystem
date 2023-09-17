@@ -1,11 +1,11 @@
-export enum QuestType {
-  "FirstQuest",
-  "SecondQuest",
-  "ThirdQuest",
-}
+import { BaseItem } from "./item";
+import { QuestAction } from "./questAction";
+import { StoryChapter } from "./storyChapter";
 
 export interface Quest {
   id: number;
-  name: string;
-  questType: QuestType;
+  title: string;
+  storyChapter: StoryChapter;
+  questAction?: QuestAction;
+  baseItem?: BaseItem;
 }

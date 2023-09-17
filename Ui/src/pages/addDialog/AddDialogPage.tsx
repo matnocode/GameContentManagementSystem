@@ -5,8 +5,10 @@ import Button from "../../common/Button";
 import { Character } from "../../interfaces/character";
 import { Dialog } from "../../interfaces/dialog";
 import DialogItem from "./DialogItem";
+import { Quest } from "../../interfaces/quest";
 import _ from "lodash";
 import { getCharacters } from "../../api/character";
+import { getQuests } from "../../api/quest";
 import { useQuery } from "react-query";
 
 const AddDialogPage: FC = () => {
@@ -14,6 +16,7 @@ const AddDialogPage: FC = () => {
   const [dialogs, setDialogs] = useState<Dialog[]>(data);
 
   const { data: characters } = useQuery("getCharacters", () => getCharacters());
+  const { data: quests } = useQuery<Quest[]>("getQuests", () => getQuests());
 
   const handleDeleteClick = (index: number) => {
     setDialogs(dialogs.filter((_, i) => i != index));
@@ -31,10 +34,9 @@ const AddDialogPage: FC = () => {
         <div>
           <FormLabel className="fw-bold">Select Quest Type</FormLabel>
           <FormSelect>
-            <option>No Quest</option>
-            <option>Quest 1</option>
-            <option>Quest 2</option>
-            <option>Quest 3</option>
+            {quests?.map((q) => (
+              <option value={q.id}>{q.title}</option>
+            ))}
           </FormSelect>
         </div>
         <div className="d-flex justify-content-between sticky-top bg-white p-2 shadow-sm border">
