@@ -4,11 +4,11 @@ using MediatR;
 
 namespace GamContentSystemApi.Commands.QuestCommands
 {
-    public class AddEditQuestCommand : IRequest<Unit> { 
-    
+    public class AddEditQuestCommand : IRequest<Unit>
+    {
+        public int? StoryChapterId { get; set; }
         public int? Id { get; set; }
-        public string? Name { get; set; }
-        public QuestType QuestType { get; set; }
+        public string Title { get; set; } = "";
     }
 
     public class AddEditQuestHandler : IRequestHandler<AddEditQuestCommand, Unit>
@@ -22,13 +22,15 @@ namespace GamContentSystemApi.Commands.QuestCommands
 
         public async Task<Unit> Handle(AddEditQuestCommand request, CancellationToken cancellationToken)
         {
+            if (request.StoryChapterId == null)
+                throw new BadHttpRequestException("StoryChapterId must have value");
+
             if (!request.Id.HasValue)
-                await questRepository.AddAsync(new Quest { QuestType = request.QuestType, Name = request.Name }, cancellationToken);
+                await questRepository.AddAsync(new Quest { Title = request.Title, StoryChapterId = request.StoryChapterId }, cancellationToken);
             else
             {
                 var character = await questRepository.GetAsync(request.Id.Value, cancellationToken) ?? throw new BadHttpRequestException("entity not found");
-                character.QuestType = request.QuestType;
-                character.Name = request.Name;
+                character.Title = request.Title;
                 await questRepository.UpdateAsync(character, cancellationToken);
             }
             return Unit.Value;

@@ -4,11 +4,11 @@ export const RequestUrl = "https://localhost:5001/api/data";
 
 export const SuccessUpdate = "Updated Successfully";
 export const SuccessAdd = "Added Successfully";
-export const SuccessRemove = "🗑️Removed Successfully";
+export const SuccessRemove = "Removed Successfully 🗑️";
 
-export const FailedRequest = "❌Something went wrong";
+export const FailedRequest = "Something went wrong ❌";
 
-export const LoadingRequest = "⌛Loading...";
+export const LoadingRequest = "Loading... ⌛";
 
 export const addEditCharacter = (character: Character) => {
   let headers = new Headers();

@@ -12,6 +12,7 @@ namespace GamContentSystemApi.Configuration
             services.AddScoped<ICharacterRepository, CharacterRepository>();
             services.AddScoped<IDialogRepository, DialogRepository>();
             services.AddScoped<IQuestRepository, QuestRepository>();
+            services.AddScoped<IStoryChapterRepository, StoryChapterRepository>();
 
             return services;
         }
