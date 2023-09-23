@@ -42,9 +42,9 @@ const DialogItem: FC<Props> = ({
 
   return (
     <>
-      <div>
-        <div className="d-flex justify-content-end my-1">
-          <div className="btn btn-close py-2" onClick={() => setShow(true)} />
+      <div className="pb-5 mx-lg-5">
+        <div className="my-1">
+          <div className="btn btn-close" onClick={() => setShow(true)} />
         </div>
         <div
           className="border d-flex flex-column gap-2 rounded p-2"
@@ -60,7 +60,9 @@ const DialogItem: FC<Props> = ({
                 }
               >
                 {characters?.map((c) => (
-                  <option value={c.id}>{c.name}</option>
+                  <option key={c.id} value={c.id}>
+                    {c.name}
+                  </option>
                 ))}
               </FormSelect>
             </div>

@@ -47,8 +47,8 @@ const DialogListPage: FC = () => {
           {data &&
             data.map((x) => (
               <tr>
-                <td>{x.questType}</td>
-                <td>{x.name}</td>
+                {/* <td>{x.}</td>
+                <td>{x.name}</td> */}
                 <td></td>
                 <td className="d-flex justify-content-between ">
                   <Button to="/addDialog/x.id">✏️</Button>

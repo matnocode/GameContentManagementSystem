@@ -1,0 +1,10 @@
+.hoverElement:hover {
+  opacity: 80%;
+  cursor: pointer;
+}
+
+.activeBullet {
+  margin-top: 5px;
+  cursor: pointer;
+  border-bottom: solid 1px rgb(0, 0, 0);
+}

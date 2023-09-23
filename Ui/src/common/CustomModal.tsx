@@ -23,10 +23,9 @@ const CustomModal: FC<Props> = ({
       </Modal.Header>
       {children && <Modal.Body>{children}</Modal.Body>}
       <Modal.Footer>
-        <Button buttonType="danger" onClick={handleClose}>
-          {cancelButtonText ?? "Cancel"}
-        </Button>
+        <Button onClick={handleClose}>{cancelButtonText ?? "Cancel"}</Button>
         <Button
+          buttonType="danger"
           onClick={() => {
             handleConfirm?.();
             handleClose();
